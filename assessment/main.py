@@ -21,12 +21,22 @@ if __name__ == "__main__":
         
         if option_main == "A":
             option_a = tui.menu_a()
+
             if option_a == "A":
-                pass
+                for out in process.get_park_reviews(data, tui.park()):
+                    tui.flush(out)
+
             elif option_a == "B":
-                pass
+                tui.flush(
+                    process.location_wise_park_reviews(data, tui.park(), tui.reviewer_location())
+                )
+
             elif option_a == "C":
-                pass
+                tui.flush(
+                    process.average_yearly_park_rating(data, tui.park(), tui.year())
+                )
+                
+                    
             elif option_a == "D":
                 pass
             

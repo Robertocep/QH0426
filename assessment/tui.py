@@ -7,6 +7,23 @@ Any errors or invalid inputs should be handled appropriately.
 Please note that you do not need to read the data file or perform any other such processing in this module.
 """
 
+def year():
+    """
+    Obtain the year from the user.
+    """
+    return input("Please enter year: ")
+
+def reviewer_location():
+    """
+    Obtain the location of the reviewer from the user.
+    """
+    return input("Please enter Reviewer's Location: ").capitalize()
+
+def park():
+    """
+    Recieve park name from user as input.
+    """
+    return input("Please enter park name: ").capitalize()
 
 def menu_c():
     """
