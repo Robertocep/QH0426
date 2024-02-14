@@ -7,6 +7,54 @@ Any errors or invalid inputs should be handled appropriately.
 Please note that you do not need to read the data file or perform any other such processing in this module.
 """
 
+
+def menu_c():
+    """
+    Display menu to user who selects "C" for main menu.
+    """
+    while True:
+        print("\nPlease enter one of the following options:")
+        print("\t[A] Export TXT")
+        print("\t[B] Export CSV")
+        print("\t[C] Export JSON")
+
+        temp = input("").lower()
+        if temp == "a" or temp == "b" or temp == "c":
+            return temp.capitalize()
+        print("Please choose from options above.")
+
+def menu_b():
+    """
+    Display menu to user who selects "B" for main menu.
+    """
+    while True:
+        print("\nPlease enter one of the following options:")
+        print("\t[A] Most Reviewed Parks")
+        print("\t[B] Average Scores")
+        print("\t[C] Park Ranking by Nationality")
+        print("\t[D] Most Popular Month by Park")
+
+        temp = input("").lower()
+        if temp == "a" or temp == "b" or temp == "c" or temp == "d":
+            return temp.capitalize()
+        print("Please choose from options above.")
+
+def menu_a():
+    """
+    Display menu to user who selects "A" for main menu.
+    """
+    while True:
+        print("\nPlease enter one of the following options:")
+        print("\t[A] View Reviews by Park")
+        print("\t[B] Number of Reviews by Park and Reviewer Location")
+        print("\t[C] Average Score per year by Park")
+        print("\t[D] Average Score per Park by Reviewer Location")
+
+        temp = input("").lower()
+        if temp == "a" or temp == "b" or temp == "c" or temp == "d":
+            return temp.capitalize()
+        print("Please choose from options above.")
+
 def menu_main():
     """
     Main menu.
