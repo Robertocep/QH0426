@@ -18,12 +18,37 @@ if __name__ == "__main__":
 
     while True:
         option_main = tui.menu_main()
+        
         if option_main == "A":
             option_a = tui.menu_a()
+            if option_a == "A":
+                pass
+            elif option_a == "B":
+                pass
+            elif option_a == "C":
+                pass
+            elif option_a == "D":
+                pass
+            
         elif option_main == "B":
             option_b = tui.menu_b()
+            if option_b == "A":
+                pass
+            elif option_b == "B":
+                pass
+            elif option_b == "C":
+                pass
+            elif option_b == "D":
+                pass
+            
         elif option_main == "C":
             option_c = tui.menu_c()
+            if option_c == "A":
+                pass
+            elif option_c == "B":
+                pass
+            elif option_c == "D":
+
         elif option_main == "D":
             break
 
