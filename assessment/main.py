@@ -8,5 +8,25 @@ Note:   any user input/output should be done in the module 'tui'
         any visualisation should be done in the module 'visual'
 """
 
+import tui
+import process
+
+if __name__ == "__main__":
+    
+    tui.note("Disneyland Review Analyzer")
+    data = process.reader(r"data\disneyland_reviews.csv")
+
+    while True:
+        option_main = tui.menu_main()
+        if option_main == "A":
+            pass
+        elif option_main == "B":
+            pass
+        elif option_main == "C":
+            pass
+        elif option_main == "D":
+            break
+
+
 
 
