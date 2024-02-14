@@ -5,6 +5,117 @@ It is likely that most sections will require functions to be placed in this modu
 """
 import tui
 
+def monthly_average_reviews(reviews: list, name: str):
+    """
+    Computes the average monthly reviews for the specified park over the years.
+
+    Args:
+    - reviews (list): A collection of dictionaries representing park reviews.
+    - park_name (str): The name of the park for which average monthly reviews are computed.
+
+    Returns:
+    dict: A dictionary with months as keys and their corresponding average number of reviews \
+          for the specified park.
+    """
+
+    ratings = {}
+    for rrr in reviews:
+        if rrr["branch"].capitalize() == name and rrr["year_month"] is not None:
+            month = rrr["year_month"].split("-")[1]
+            if ratings.get(month) is None:
+                ratings[month] = [rrr["rating"]]
+            else:
+                mon_list = ratings.get(month)
+                mon_list.append(rrr["rating"])
+                ratings[month] = mon_list
+
+    # Calculate average ratings for each month and sort the dictionary by keys in ascending order
+    avg_ratings = {}
+    for mm, rrr in ratings.items():
+        avg_ratings[mm] = sum(rrr) / len(rrr)
+    return dict(sorted(avg_ratings.items(), key=lambda x: int(x[0])))
+
+def top_locations_by_review(reviews: list, name: str):
+    """
+    Determines the top 10 locations that provided the highest average ratings for the specified park.
+
+    Args:
+    - reviews (list): A collection of dictionaries representing park reviews.
+    - park_name (str): The name of the park for which top review locations are sought.
+
+    Returns:
+    dict: A dictionary with locations as keys and their respective average ratings for the specified park.
+    """
+
+    temp_ratings = {}
+    for rrr in reviews:
+        if rrr["branch"].capitalize() == name:
+            if temp_ratings.get(rrr["reviewer_location"]) is None:
+                temp_ratings[rrr["reviewer_location"]] = [rrr["rating"]]
+            else:
+                temp = temp_ratings.get(rrr["reviewer_location"])
+                temp.append(rrr["rating"])
+                temp_ratings[rrr["reviewer_location"]] = temp
+
+    # Calculate average ratings for each city
+    avg_rrr = {}
+    for c, rrr in temp_ratings.items():
+        avg_rrr[c] = sum(rrr) / len(rrr)
+
+    # Select top 10 cities and Extract ratings and names for plotting
+    ratings = {}
+    for c in sorted(avg_rrr, key=avg_rrr.get, reverse=True)[:10]:
+        ratings[c] = avg_rrr[c]
+    return ratings
+
+def avg_review_score(reviews: list):
+    """
+    Computes the average review rating for each park based on the provided reviews.
+
+    Args:
+    - reviews (list): A collection of dictionaries representing park reviews.
+
+    Returns:
+    dict: A dictionary with park names as keys and their corresponding average \
+          review ratings as values.
+    """
+
+    temp_parks = {}
+    for rrr in reviews:
+        if temp_parks.get(rrr["branch"]) is None:
+            temp_parks[rrr["branch"]] = [rrr["rating"]]
+        else:
+            review_list = temp_parks.get(rrr["branch"])
+            review_list.append(rrr["rating"])
+            temp_parks[rrr["branch"]] = review_list
+
+    avg_rrr = {}
+    for park in temp_parks.items():
+        try:
+            avg = sum(park[1])/len(park[1])
+            avg_rrr[park[0]] = avg
+        except ZeroDivisionError:
+            pass
+    return avg_rrr
+
+def review_count(reviews: list):
+    """
+    Creates a dictionary with park names as keys and their respective review counts as values.
+
+    Args:
+    - reviews (list): A collection of strings representing park reviews.
+
+    Returns:
+    dict: A dictionary mapping park names to the number of reviews each park has received.
+    """
+
+    parks = {}
+    for rrr in reviews:
+        if parks.get(rrr["branch"]) is None:
+            parks[rrr["branch"]] = 0
+        else:
+            parks[rrr["branch"]] = parks.get(rrr["branch"]) + 1
+    return parks
 
 def average_yearly_park_rating(reviews: list, name: str, rating_year: str):
     """
@@ -31,7 +142,7 @@ def average_yearly_park_rating(reviews: list, name: str, rating_year: str):
     else:
         return f"No Ratings for {name} on year {rating_year}"
     
-def location_wise_park_reviews(reviews: list, name: str, reviewer_location: str) -> str:
+def location_wise_park_reviews(reviews: list, name: str, reviewer_location: str):
     """
     Fetches a park review based on the provided park name and the reviewer's location.
 
@@ -88,10 +199,11 @@ def reader(path: str):
             reviews.append({
                 "review_id" : row[0],
                 "rating": int(row[1]),
-                "year_month": row[2],
+                "year_month": row[2] if row[2] != "missing" else None,
                 "reviewer_location": row[3],
                 "branch": row[4]
             })
+
         tui.flush("CSV Data successfully loaded.")
         tui.flush(f"Available rows in data are: {len(reviews)}")
         return reviews

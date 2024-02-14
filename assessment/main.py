@@ -10,6 +10,7 @@ Note:   any user input/output should be done in the module 'tui'
 
 import tui
 import process
+import visual
 
 if __name__ == "__main__":
     
@@ -42,14 +43,29 @@ if __name__ == "__main__":
             
         elif option_main == "B":
             option_b = tui.menu_b()
+            
             if option_b == "A":
-                pass
+                visual.chart_pie(
+                    process.review_count(data)
+                )
+
             elif option_b == "B":
-                pass
+                visual.chart_bar(
+                    process.avg_review_score(data), 
+                    'Average Review Scores for Each Park'
+                )
+
             elif option_b == "C":
-                pass
+                name = tui.park()
+                visual.chart_bar(
+                    process.top_locations_by_review(data, name), 
+                    f'Average Review Scores for {name}'
+                )
             elif option_b == "D":
-                pass
+                visual.chart_bar(
+                    process.monthly_average_reviews(data, tui.park()), 
+                    'Monthly reviews'
+                )
             
         elif option_main == "C":
             option_c = tui.menu_c()
