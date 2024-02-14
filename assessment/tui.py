@@ -7,6 +7,23 @@ Any errors or invalid inputs should be handled appropriately.
 Please note that you do not need to read the data file or perform any other such processing in this module.
 """
 
+def location_wise_rating(park, review_locations):
+    """
+    Present a visualization of scores per park categorized by reviewer location.
+
+    Args:
+        data (str): Park name
+        review_locations (dict): Locations with ratings
+    
+    Returns:
+        None: Displays a representation of scores per park based on reviewer location.
+    """
+
+    print("\n", park, "-" * len(park), sep="\n")
+    for loc, ratings in review_locations.items():
+        flush(f"  {loc}: {ratings:.2f}")
+    print("\n")
+
 def year():
     """
     Obtain the year from the user.

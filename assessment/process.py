@@ -5,6 +5,36 @@ It is likely that most sections will require functions to be placed in this modu
 """
 import tui
 
+def avg_rating_by_location(reviews: list):
+    """
+    Computes the average park rating for each location based on the provided reviews.
+
+    Args:
+    - reviews (list): A collection of dictionaries representing park reviews.
+      Each dictionary should contain 'location' (str) and 'rating' (float) keys.
+
+    Returns:
+    dict: A dictionary with unique locations as keys and their corresponding average ratings from reviews.
+    """
+
+    temp_parks = {}
+
+    for rrr in reviews:
+        if not rrr["branch"] in temp_parks:
+            temp_parks[rrr["branch"]] = {}
+
+        # Fore every review add review to destined park's storage.
+        if not rrr["reviewer_location"] in temp_parks[rrr["branch"]]:
+            temp_parks[rrr["branch"]][rrr["reviewer_location"]] = [rrr["rating"]]
+        else:
+            temp_parks[rrr["branch"]][rrr["reviewer_location"]] += [rrr["rating"]]
+
+    # Inside dictionary, calculate average ratings for every city
+    for _ , rev_locations in temp_parks.items():
+        for loc, rrr in rev_locations.items():
+            rev_locations[loc] = sum(rrr) / len(rrr)
+    return temp_parks
+
 def monthly_average_reviews(reviews: list, name: str):
     """
     Computes the average monthly reviews for the specified park over the years.
@@ -207,3 +237,87 @@ def reader(path: str):
         tui.flush("CSV Data successfully loaded.")
         tui.flush(f"Available rows in data are: {len(reviews)}")
         return reviews
+
+class ParkDataExporter:
+    """
+    ParkDataExporter class aggregates information about parks and saves it in various formats.
+    """
+
+    def __init__(self, data):
+        """
+        Initialize the ParkDataExporter instance.
+
+        Args:
+            data: List of Review objects
+        """
+        self.data = data
+        self.output = None
+
+    def create_export_data(self):
+        """
+        Create a dictionary object containing aggregated park information.
+
+        Returns:
+            dict: Aggregated park information
+        """
+        parks = {}
+        for review in self.data:
+            if not review["branch"] in parks:
+                parks[review["branch"]] = {
+                    "No of Reviews": 0,
+                    "Number of positive reviews": 0,
+                    "Average review score": 0,
+                    "Number of countries": set()
+                }
+
+            # Increment the number of reviews.
+            parks[review["branch"]]["No of Reviews"] += 1
+
+            # Increment the number of positive reviews.
+            if review["rating"] >= 4:
+                parks[review["branch"]]["Number of positive reviews"] += 1
+
+            # Aggregate review score.
+            parks[review["branch"]]["Average review score"] += review["rating"]
+
+            # Add the reviewer's country to the set.
+            parks[review["branch"]]["Number of countries"].add(review["reviewer_location"])
+
+        for _, park in parks.items():
+            park["Number of countries"] = len(park["Number of countries"])
+            park["Average review score"] /= park["No of Reviews"]
+
+        return parks
+
+    def save_as_txt(self):
+        """
+        Export aggregated park data as TXT.
+        """
+        output = self.create_export_data()
+        with open('parks.txt', 'w', encoding="utf-8") as txt_file:
+            for park, data in output.items():
+                txt_file.write(f"{park}: {data}\n")
+            txt_file.write("")
+
+    def save_as_csv(self):
+        """
+        Export aggregated park data as CSV.
+        """
+        output = self.create_export_data()
+        with open('parks.csv', 'w', encoding="utf-8") as csv_file:
+            header = "Park,No of Reviews,Number of positive reviews,"
+            header += "Average review score,Number of countries\n"
+
+            csv_file.write(header)
+            for park, data in output.items():
+                csv_file.write(f"{park},{data['No of Reviews']},")
+                csv_file.write(f"{data['Number of positive reviews']},")
+                csv_file.write(f"{data['Average review score']},{data['Number of countries']}\n")
+
+    def save_as_json(self):
+        """
+        Export aggregated park data as JSON.
+        """
+        output = self.create_export_data()
+        with open('parks.json', 'w', encoding="utf-8") as json_file:
+            json_file.write(str(output))

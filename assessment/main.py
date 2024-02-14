@@ -39,7 +39,8 @@ if __name__ == "__main__":
                 
                     
             elif option_a == "D":
-                pass
+                for park, review_locations in process.avg_rating_by_location(data).items():
+                    tui.location_wise_rating(park, review_locations)
             
         elif option_main == "B":
             option_b = tui.menu_b()
@@ -69,12 +70,16 @@ if __name__ == "__main__":
             
         elif option_main == "C":
             option_c = tui.menu_c()
+            
             if option_c == "A":
-                pass
+                tmp = process.ParkDataExporter(data)
+                tmp.save_as_txt()
             elif option_c == "B":
-                pass
-            elif option_c == "D":
-                pass
+                tmp = process.ParkDataExporter(data)
+                tmp.save_as_csv()
+            elif option_c == "C":
+                tmp = process.ParkDataExporter(data)
+                tmp.save_as_json()
 
         elif option_main == "D":
             break
