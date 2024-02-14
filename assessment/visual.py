@@ -29,7 +29,8 @@ def chart_bar(avg_ratings: dict, legend: str):
     Present a bar chart illustrating the average review scores for each park.
 
     Parameters:
-    - avg_ratings (dict): A dictionary with park names as keys and their corresponding average review scores.
+    - avg_ratings (dict): A dictionary with park names as keys and their
+      corresponding average review scores.
     - legend (str): Legend shown at chart
 
     Returns:

@@ -1,7 +1,8 @@
 """
-This module is responsible for processing the data.  It will largely contain functions that will recieve the overall dataset and 
-perfrom necessary processes in order to provide the desired result in the desired format.
-It is likely that most sections will require functions to be placed in this module.
+This module is responsible for processing the data.  It will largely contain 
+functions that will recieve the overall dataset and perfrom necessary processes 
+in order to provide the desired result in the desired format. It is likely that 
+most sections will require functions to be placed in this module.
 """
 import tui
 
@@ -14,7 +15,8 @@ def avg_rating_by_location(reviews: list):
       Each dictionary should contain 'location' (str) and 'rating' (float) keys.
 
     Returns:
-    dict: A dictionary with unique locations as keys and their corresponding average ratings from reviews.
+    dict: A dictionary with unique locations as keys and their corresponding 
+            average ratings from reviews.
     """
 
     temp_parks = {}
@@ -67,14 +69,16 @@ def monthly_average_reviews(reviews: list, name: str):
 
 def top_locations_by_review(reviews: list, name: str):
     """
-    Determines the top 10 locations that provided the highest average ratings for the specified park.
+    Determines the top 10 locations that provided the highest average ratings
+    for the specified park.
 
     Args:
     - reviews (list): A collection of dictionaries representing park reviews.
     - park_name (str): The name of the park for which top review locations are sought.
 
     Returns:
-    dict: A dictionary with locations as keys and their respective average ratings for the specified park.
+    dict: A dictionary with locations as keys and their respective average ratings
+    for the specified park.
     """
 
     temp_ratings = {}
@@ -171,7 +175,7 @@ def average_yearly_park_rating(reviews: list, name: str, rating_year: str):
         return f"Average rating for the {name} in the {rating_year} is {average:.2f}"
     else:
         return f"No Ratings for {name} on year {rating_year}"
-    
+
 def location_wise_park_reviews(reviews: list, name: str, reviewer_location: str):
     """
     Fetches a park review based on the provided park name and the reviewer's location.

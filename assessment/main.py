@@ -13,13 +13,13 @@ import process
 import visual
 
 if __name__ == "__main__":
-    
+
     tui.note("Disneyland Review Analyzer")
     data = process.reader(r"data\disneyland_reviews.csv")
 
     while True:
         option_main = tui.menu_main()
-        
+
         if option_main == "A":
             option_a = tui.menu_a()
 
@@ -36,15 +36,14 @@ if __name__ == "__main__":
                 tui.flush(
                     process.average_yearly_park_rating(data, tui.park(), tui.year())
                 )
-                
-                    
+
             elif option_a == "D":
                 for park, review_locations in process.avg_rating_by_location(data).items():
                     tui.location_wise_rating(park, review_locations)
-            
+
         elif option_main == "B":
             option_b = tui.menu_b()
-            
+
             if option_b == "A":
                 visual.chart_pie(
                     process.review_count(data)
@@ -52,25 +51,25 @@ if __name__ == "__main__":
 
             elif option_b == "B":
                 visual.chart_bar(
-                    process.avg_review_score(data), 
+                    process.avg_review_score(data),
                     'Average Review Scores for Each Park'
                 )
 
             elif option_b == "C":
                 name = tui.park()
                 visual.chart_bar(
-                    process.top_locations_by_review(data, name), 
+                    process.top_locations_by_review(data, name),
                     f'Average Review Scores for {name}'
                 )
             elif option_b == "D":
                 visual.chart_bar(
-                    process.monthly_average_reviews(data, tui.park()), 
+                    process.monthly_average_reviews(data, tui.park()),
                     'Monthly reviews'
                 )
-            
+
         elif option_main == "C":
             option_c = tui.menu_c()
-            
+
             if option_c == "A":
                 tmp = process.ParkDataExporter(data)
                 tmp.save_as_txt()
@@ -83,7 +82,3 @@ if __name__ == "__main__":
 
         elif option_main == "D":
             break
-
-
-
-
